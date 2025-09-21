@@ -3,6 +3,11 @@ const app = express()
 const port = 8000
 
 
+// add midleware
+app.use(express.json())
+
+
+
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 // Database Access UserName and Password
@@ -30,10 +35,18 @@ async function run() {
 
       console.log("Pinged your deployment. You successfully connected to MongoDB!");
       
-      // routes
+      // get data from database
       app.get("/todos", async (req, res) => {
           const todos = await todosCollection.find({}).toArray();
           res.send(todos)
+      });
+
+      // post data to database
+      app.post("/todo", async (req, res) => {
+          
+          const todoData = req.body;
+          const todo = await todosCollection.insertOne(todoData)
+          res.send(todo)
       });
 
   } finally {
