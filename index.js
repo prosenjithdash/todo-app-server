@@ -4,11 +4,22 @@
 
 const express = require('express')
 const app = express()
-
 // mongooseJS
 const mongoose = require('mongoose');
-
 const port = 8000
+
+
+// Mongoose Schema
+// Schema (BluePrint) => Model (ProtoType) => Real Data
+
+const todoSchema = new mongoose.Schema({
+    todo: String,
+    priority:String,
+});
+
+
+// Mongoose Model
+const Todo = mongoose.model('Todo', todoSchema);
 
 
 // add midleware
@@ -19,7 +30,7 @@ app.use(express.json())
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 // Database Access UserName and Password
-const uri = "mongodb+srv://todo_user:wS4qwYGbfyzNdDSP@cluster0.kybpity.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://todo_user:wS4qwYGbfyzNdDSP@cluster0.kybpity.mongodb.net/todoDB?retryWrites=true&w=majority&appName=Cluster0";
 
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -60,7 +71,10 @@ async function run() {
       app.get("/todos", async (req, res) => {
     // MONGO this find NOT NEED NOW COURSE OF WE ARE WORK WITH MONGOOSE
     // =>>>>>>
-        //   const todos = await todosCollection.find({}).toArray();
+          //   const todos = await todosCollection.find({}).toArray();
+          
+         const todos = await Todo.find({});
+
           res.send(todos)
       });
 
@@ -68,7 +82,16 @@ async function run() {
       app.post("/todo", async (req, res) => {
           
           const todoData = req.body;
-          console.log(todoData)
+
+        //   const todo = new Todo(todoData)
+        //   todo.save();
+
+          // alternative of save()
+          const todo = await Todo.create(todoData)
+
+
+
+          console.log(todo)
     // MONGO this insertOne NOT NEED NOW COURSE OF WE ARE WORK WITH MONGOOSE
     // =>>>>>>
         //   const todo = await todosCollection.insertOne(todoData)
