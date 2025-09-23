@@ -79,7 +79,7 @@ async function run() {
 
       console.log("Pinged your deployment. You successfully connected to MongoDB!");
       
-      // 1. get all data from database with Mongoose
+    // 1. get all data from database with Mongoose
       app.get("/todos", async (req, res) => {
     // MONGO this find NOT NEED NOW COURSE OF WE ARE WORK WITH MONGOOSE
     // =>>>>>>
@@ -96,12 +96,14 @@ async function run() {
           console.log(req.params)
 
           const todoId = req.params.id;
+
+          // findById just work  MongoDB Object Id But findOne support any id , ex: fineOne({-id: todoId})
           const todo = await Todo.findById(todoId);
           res.send(todo)
       })
 
 
-      // 3. post single data to database with Mongoose
+    // 3. post single data to database with Mongoose
       app.post("/todo", async (req, res) => {
           
           const todoData = req.body;
@@ -122,6 +124,29 @@ async function run() {
         //   const todo = await todosCollection.insertOne(todoData)
           res.send(todo)
       });
+
+      // 4. update data to database with Mongoose
+      
+      // Put => If not exist then auto create
+      // Patch => Already exist and then update
+      
+      // findByIdAndUpdate() => It's work detect just match id and update
+      // updateOne() => It's work with detect any think match
+
+      app.patch('/todo/:id', async (req, res) => {
+          const todoId = req.params.id;
+          const updatedData = req.body;
+
+          const updateTodo = await Todo.findByIdAndUpdate(todoId, updatedData, {
+              new:true
+          })
+          
+          res.send(updateTodo)
+
+      })
+
+
+
 
 
   } finally {
