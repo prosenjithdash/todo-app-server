@@ -125,7 +125,7 @@ async function run() {
           res.send(todo)
       });
 
-      // 4. update data to database with Mongoose
+    // 4. update data from database with Mongoose
       
       // Put => If not exist then auto create
       // Patch => Already exist and then update
@@ -142,6 +142,15 @@ async function run() {
           })
           
           res.send(updateTodo)
+
+      })
+
+
+      // 5. Delate data from database with Mongoose
+      app.delete("/todo/:id", async (req, res ) => {
+          const todoId = req.params.id;
+          await Todo.findByIdAndDelete(todoId);
+          res.send('Deleted Successfully.');
 
       })
 
