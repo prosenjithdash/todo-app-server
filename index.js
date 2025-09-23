@@ -14,6 +14,7 @@ const port = 8000
 
 const todoSchema = new mongoose.Schema({
     todo: String,
+    // apply enum for condition
     priority: {
         type: String,
         enum: ['low','medium','high'],
@@ -122,3 +123,25 @@ run().catch(console.dir);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
+// WHY WE ARE WORK WITH MONGOOSE
+// Course of =>>>
+
+// 1. Schema & Model
+//    - Define structure of data (fields, types, required, default, enum, etc.)
+//    - Helps to keep data consistent and validated
+
+// 2. Priority & Validation
+//    - Add conditions (required, minlength, maxlength, enum, match, type checking)
+//    - Prevents wrong or invalid data from being saved in MongoDB
+
+// 3. Easy Connect & Integration
+//    - Simple connection with MongoDB Atlas or Local MongoDB
+//    - Works smoothly with Express.js server
+
+// 4. Short & Clean Code
+//    - Built-in methods for CRUD (create, find, update, delete)
+//    - Less code compared to native MongoDB driver
+//    - Easy to handle relations (populate, references)
+
