@@ -14,7 +14,10 @@ const port = 8000
 
 const todoSchema = new mongoose.Schema({
     todo: String,
-    priority:String,
+    priority: {
+        type: String,
+        enum: ['low','medium','high'],
+    },
 });
 
 
@@ -83,10 +86,12 @@ async function run() {
           
           const todoData = req.body;
 
+        // options : 01
         //   const todo = new Todo(todoData)
         //   todo.save();
 
-          // alternative of save()
+        // options : 02
+        // alternative of save()
           const todo = await Todo.create(todoData)
 
 
