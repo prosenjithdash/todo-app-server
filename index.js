@@ -13,12 +13,20 @@ const port = 8000
 // Schema (BluePrint) => Model (ProtoType) => Real Data
 
 const todoSchema = new mongoose.Schema({
-    todo: String,
+    todo: {
+            type: String,
+            required: true
+        },
     // apply enum for condition
     priority: {
         type: String,
-        enum: ['low','medium','high'],
+        enum: ['low', 'medium', 'high'],
+        required: true
     },
+    isComplete: {
+        type: Boolean,
+        required:true
+    }
 });
 
 
