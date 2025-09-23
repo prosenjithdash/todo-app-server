@@ -9,9 +9,12 @@ const mongoose = require('mongoose');
 const port = 8000
 
 
+// ====>>>
+// ---------->>>
 // Mongoose Schema
 // Schema (BluePrint) => Model (ProtoType) => Real Data
 
+// TODO SCHEMA
 const todoSchema = new mongoose.Schema({
     todo: {
             type: String,
@@ -30,9 +33,36 @@ const todoSchema = new mongoose.Schema({
 });
 
 
+// USER SCHEMA
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required:true,
+    }
+})
+// ---------->>>
+
+// ====>>>
+
+// ---------->>>
 // Mongoose Model
+
+// TODO MODEL
 const Todo = mongoose.model('Todo', todoSchema);
 
+
+// USER MODEL
+const User = mongoose.model('User', userSchema)
+
+// ---------->>>
 
 // add midleware
 app.use(express.json())
@@ -78,8 +108,12 @@ async function run() {
     //   const todosCollection = client.db('todoDB').collection("todos")
 
       console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    
+    //===>>>
+    // ---------->>>
+    // GET, POST, UPDATE, & DELATE DATA FOR TODOS
       
-    // 1. get all data from database with Mongoose
+    // 1. get all TODOS data from database with Mongoose
       app.get("/todos", async (req, res) => {
     // MONGO this find NOT NEED NOW COURSE OF WE ARE WORK WITH MONGOOSE
     // =>>>>>>
@@ -90,7 +124,7 @@ async function run() {
           res.send(todos)
       });
 
-      // 2. get single data from database with Mongoose
+    // 2. get single TODO data from database with Mongoose
       app.get("/todo/:id", async (req, res) => {
           
           console.log(req.params)
@@ -103,7 +137,7 @@ async function run() {
       })
 
 
-    // 3. post single data to database with Mongoose
+    // 3. post single TODO data to database with Mongoose
       app.post("/todo", async (req, res) => {
           
           const todoData = req.body;
@@ -125,7 +159,7 @@ async function run() {
           res.send(todo)
       });
 
-    // 4. update data from database with Mongoose
+    // 4. update TODO data from database with Mongoose
       
       // Put => If not exist then auto create
       // Patch => Already exist and then update
@@ -145,8 +179,7 @@ async function run() {
 
       })
 
-
-      // 5. Delate data from database with Mongoose
+      // 5. Delate TODO data from database with Mongoose
       app.delete("/todo/:id", async (req, res ) => {
           const todoId = req.params.id;
           await Todo.findByIdAndDelete(todoId);
@@ -154,7 +187,26 @@ async function run() {
 
       })
 
+    // ---------->>>
+      
+      // ===>>>
+      
+    // ---------->>>
+      // GET, POST, UPDATE, & DELATE DATA FOR USERS
+      
+      // Register user with Post
+      app.post('/register',async (req, res) => {
+          const userData = req.body;
+          const user = await User.create(userData)
+          res.send(user)
 
+    })
+      
+
+
+      
+
+      
 
 
 
