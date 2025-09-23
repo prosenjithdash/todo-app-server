@@ -79,7 +79,7 @@ async function run() {
 
       console.log("Pinged your deployment. You successfully connected to MongoDB!");
       
-      // 1. get data from database
+      // 1. get all data from database with Mongoose
       app.get("/todos", async (req, res) => {
     // MONGO this find NOT NEED NOW COURSE OF WE ARE WORK WITH MONGOOSE
     // =>>>>>>
@@ -90,7 +90,18 @@ async function run() {
           res.send(todos)
       });
 
-      // 2. post data to database
+      // 2. get single data from database with Mongoose
+      app.get("/todo/:id", async (req, res) => {
+          
+          console.log(req.params)
+
+          const todoId = req.params.id;
+          const todo = await Todo.findById(todoId);
+          res.send(todo)
+      })
+
+
+      // 3. post single data to database with Mongoose
       app.post("/todo", async (req, res) => {
           
           const todoData = req.body;
