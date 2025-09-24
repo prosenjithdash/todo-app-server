@@ -2,10 +2,17 @@
 
 // ==>>>>>
 
+// ^ Require the express
 const express = require('express')
+
+// ^ express function call to app;
 const app = express()
 // mongooseJS
+
+// ^ require the mongoose
 const mongoose = require('mongoose');
+
+// ^ define the port (ex: http://localhost:8000)
 const port = 8000
 
 
@@ -14,6 +21,21 @@ const port = 8000
 // Mongoose Schema
 // Schema (BluePrint) => Model (ProtoType) => Real Data
 
+
+// ^ define Todo schema
+
+// 🔹 Why We are Use Schema in Mongoose?
+// ---> 1. Structure → Defines blueprint of data (fields & types).
+
+// ---> 2. Validation → Ensures correct data (required, enum, min/max).
+
+// ---> 3. Default Values → Auto set fields (like createdAt).
+
+// ---> 4. Methods & Middleware → Add custom functions & hooks.
+
+// ---> 5. Relationships → Connect collections (User ↔ Todo).
+
+// ^ follow mongoose website: https://mongoosejs.com/docs/index.html
 // TODO SCHEMA
 const todoSchema = new mongoose.Schema({
     todo: {
@@ -33,6 +55,7 @@ const todoSchema = new mongoose.Schema({
 });
 
 
+// define User Schema
 // USER SCHEMA
 const userSchema = new mongoose.Schema({
     name: {
@@ -55,6 +78,17 @@ const userSchema = new mongoose.Schema({
 // ---------->>>
 // Mongoose Model
 
+
+// Why We Use Model in Mongoose?
+
+// ---> 1. Bridge → Model connects Schema with the actual MongoDB collection.
+
+// ---> 2. CRUD Operations → Lets you create, read, update, delete documents easily.
+
+// ---> 3. Reuse → Once a model is defined, you can use it anywhere in your app.
+
+// ---> 4. Validation & Rules Applied → Every time you use the model, schema rules auto-apply.
+
 // TODO MODEL
 const Todo = mongoose.model('Todo', todoSchema);
 
@@ -65,10 +99,25 @@ const User = mongoose.model('User', userSchema)
 // ---------->>>
 
 // add midleware
+
+// what's the middleware? app.use(express.json())
+
+// => Middleware (short)
+
+// ---> 1. Middleware = function that runs before routes.
+
+// ---> 2. Used for: parse, check, modify request/response.
+
+// 🔹 app.use(express.json())
+
+// ---> 1. It’s a built-in middleware.
+
+// ---> 2. It converts JSON body → JavaScript object so we can use req.body.
+
 app.use(express.json())
 
 
-
+// Require mongoDB
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 // Database Access UserName and Password
@@ -117,7 +166,7 @@ async function run() {
       app.get("/todos", async (req, res) => {
     // MONGO this find NOT NEED NOW COURSE OF WE ARE WORK WITH MONGOOSE
     // =>>>>>>
-          //   const todos = await todosCollection.find({}).toArray();
+          //  const todos = await todosCollection.find({}).toArray();
           
          const todos = await Todo.find({});
 
