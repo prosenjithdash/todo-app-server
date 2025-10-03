@@ -248,8 +248,28 @@ async function run() {
           const userData = req.body;
           const user = await User.create(userData)
           res.send(user)
+      })
+      
+      // Login user with post
+        app.post('/login', async (req, res) => {
+              const { email, password } = req.body;
+              const user = await User.findOne(
+                  {
+                      email,
+                      password
+                  })
+              if (user) {
+                  const userResponse = {
+                      message: 'Logged In Successfully',
+                      data:user,
+                  }
+                  res.send(userResponse);
+              }
 
-    })
+              res.send('Email or Password Incorrect.')
+              
+
+        })
       
 
 
