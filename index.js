@@ -166,7 +166,22 @@ async function run() {
     // GET, POST, UPDATE, & DELATE DATA FOR TODOS
       
     // 1. get all TODOS data from database with Mongoose
-      app.get("/todos", async (req, res) => {
+      app.get("/todos", async (req, res, next) => {
+          console.log('yes')
+          console.log(req.headers)
+          const token = req.headers.authorization
+
+          const privetKey = "secret"
+          const verifiedToken = jwt.verify(token, privetKey)
+          console.log(verifiedToken)
+          if (verifiedToken) {
+               next();
+          } else {
+              res.send('You are not Authorized')
+          }
+         
+      },
+        async (req, res) => {
     // MONGO this find NOT NEED NOW COURSE OF WE ARE WORK WITH MONGOOSE
     // =>>>>>>
           //  const todos = await todosCollection.find({}).toArray();
