@@ -15,6 +15,9 @@ const mongoose = require('mongoose');
 // ^ define the port (ex: http://localhost:8000)
 const port = 8000
 
+// JWT Required
+var jwt = require('jsonwebtoken');
+
 
 // ====>>>
 // ---------->>>
@@ -258,15 +261,42 @@ async function run() {
                       email,
                       password
                   })
-              if (user) {
+            if (user) {
+                  
+                // Apply JWT Authentication
+
+                //1. payload
+                const payload = {
+                    name: user.name,
+                    email: user.email,
+                }
+
+                //2.Signature
+                const privetKey = "secret"
+
+                //3.Optional(Expired Time)
+                const expirationTime = "365d"
+
+                // accessToken need to 3 part=> 1. payload, 2.Signature, 3.Optional(Expired Time)
+                const accessToken = jwt.sign(payload, privetKey,
+                    {
+                        expiresIn: expirationTime,
+                    }
+                )
+
+
                   const userResponse = {
                       message: 'Logged In Successfully',
-                      data:user,
+                      data: {
+                          accessToken
+                      },
                   }
                   res.send(userResponse);
+            } else {
+                res.send('Email or Password Incorrect.')
               }
 
-              res.send('Email or Password Incorrect.')
+              
               
 
         })
