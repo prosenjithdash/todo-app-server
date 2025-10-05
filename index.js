@@ -167,11 +167,13 @@ async function run() {
       
     // 1. get all TODOS data from database with Mongoose
       app.get("/todos", async (req, res, next) => {
-          console.log('yes')
-          console.log(req.headers)
+        //   console.log('yes')
+        //   console.log(req.headers)
           const token = req.headers.authorization
 
           const privetKey = "secret"
+
+          // Token verification
           const verifiedToken = jwt.verify(token, privetKey)
           console.log(verifiedToken)
           if (verifiedToken) {
@@ -364,3 +366,11 @@ app.listen(port, () => {
 //    - Less code compared to native MongoDB driver
 //    - Easy to handle relations (populate, references)
 
+// Why we are apply JWT?
+// 1. Authenticate users — prove their identity after login.
+
+// 2. Authorize access — allow only specific users to access protected routes.
+
+// 3. Keep sessions stateless — no need to store user data on the server.
+
+// 4. Secure data — token is signed and can’t be easily tampered with.
